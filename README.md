@@ -5,6 +5,13 @@
 cdk bootstrap aws://<aws_account>/<region> --cloudformation-execution-policies arn:aws:iam::aws:policy/AdministratorAccess --profile <aws_profile>
 ```
 
+### Connection between AWS and Github
+The connection is established using aws connections. The connection can be created;
+```
+aws codeconnections create-connection --provider-type GitHub --connection-name <connection_name> --profile <aws_profile>
+```
+Complete the [pending status to available](https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-update.html) through aws console.
+
 ## Useful commands for cdk
 
 * `npm run build`   compile typescript to js
