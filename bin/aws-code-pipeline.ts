@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib';
-import { AwsCodePipelineStack } from '../lib/aws-code-pipeline-stack';
+import { AwsCodePipelineStack } from '../lib/resource/aws-code-pipeline-stack';
 
 const app = new cdk.App();
 new AwsCodePipelineStack(app, 'AwsCodePipelineStack', {
