@@ -10,7 +10,7 @@ export class AwsCodePipelineStack extends cdk.Stack {
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'TestPipeline',
       synth: new ShellStep('Synth', {
-        input: CodePipelineSource.connection('Ume0344/aws-code-pipeline.git', 'main', {
+        input: CodePipelineSource.connection('Ume0344/aws-code-pipeline', 'main', {
           connectionArn: 'arn:aws:codeconnections:eu-west-1:723611335094:connection/04313928-19d3-4f43-8ff1-216bd22402f2'
         }),
         commands: [
