@@ -2,6 +2,8 @@ import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines'; 
 import { ManualApprovalStep } from 'aws-cdk-lib/pipelines';
+import { MyPipelineAppStage } from './pipeline-stage';
+import { env } from 'process';
 
 export class AwsCodePipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -22,5 +24,15 @@ export class AwsCodePipelineStack extends cdk.Stack {
           `npx cdk synth ${this.stackName}`],
         })
       })
+    
+      const developmentStage = pipeline.addStage(new MyPipelineAppStage(this, 'development', {
+        env: { account: '723611335094', region: 'eu-west-1'}
+      }));
+
+      developmentStage.addPost(new ManualApprovalStep('Manual approvale before production'))
+
+      const productionStage = pipeline.addStage(new MyPipelineAppStage(this, 'production', {
+        env: { account: '723611335094', region: 'eu-west-1'}
+      }));
     }
   }
