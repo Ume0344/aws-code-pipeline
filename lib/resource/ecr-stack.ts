@@ -24,7 +24,7 @@ export class EcrStack extends Stack {
     })
 
     new ECRDeployment(this, 'DeplyDockerImageToEcr', {
-      src: new DockerImageName(`${props.config.repoName}:${props.config.imageTag}`),
+      src: new DockerImageName(`${props.config.imageName}:${props.config.imageTag}`),
       dest: new DockerImageName(`${ecrRepo.repositoryUri}:${props.config.imageTag}`),
     })
   }
