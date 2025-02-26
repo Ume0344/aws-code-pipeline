@@ -23,9 +23,9 @@ export class EcrStack extends Stack {
         repositoryName: `ecr-repo-for-${props.config.repoName.toLowerCase()}-${props.config.stage}`
     })
 
-    new ECRDeployment(this, 'DeplyDockerImageToEcr', {
-      src: new DockerImageName(`${props.config.repoName}:${props.config.imageTag}`),
-      dest: new DockerImageName(`${props.account}.dkr.ecr.${props.region}.amazonaws.com/${props.config.imageName}:${props.config.imageTag}`),
-    })
+    // new ECRDeployment(this, 'DeplyDockerImageToEcr', {
+    //   src: new DockerImageName(`${props.config.repoName}:${props.config.imageTag}`),
+    //   dest: new DockerImageName(`${props.account}.dkr.ecr.${props.region}.amazonaws.com/${props.config.imageName}:${props.config.imageTag}`),
+    // })
   }
 }
