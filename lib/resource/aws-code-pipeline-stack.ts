@@ -26,13 +26,13 @@ export class AwsCodePipelineStack extends cdk.Stack {
       })
     
       const developmentStage = pipeline.addStage(new MyPipelineAppStage(this, 'development', {
-        env: { account: '723611335094', region: 'eu-west-1'}
+        env: { account: '723611335094', region: 'eu-central-1'}
       }));
 
       developmentStage.addPost(new ManualApprovalStep('Manual approvale before production'))
 
       const productionStage = pipeline.addStage(new MyPipelineAppStage(this, 'production', {
-        env: { account: '723611335094', region: 'eu-west-1'}
+        env: { account: '723611335094', region: 'eu-central-1'}
       }));
     }
   }
