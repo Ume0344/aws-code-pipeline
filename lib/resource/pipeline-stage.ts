@@ -12,9 +12,9 @@ export class MyPipelineAppStage extends Stage {
         region: props.env?.region,
         config: {
             stage: stageName,
-            imageTag: 'latest',
-            imageName: 'nginx'
+            imageTag: '0.17.1',
+            imageName: 'natsio/jetstream-controller'
         }
-      });      
+      });
     }
 }
