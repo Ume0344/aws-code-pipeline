@@ -3,7 +3,7 @@ import { Construct } from 'constructs';
 import { CodePipeline, CodePipelineSource, ShellStep } from 'aws-cdk-lib/pipelines'; 
 import { ManualApprovalStep } from 'aws-cdk-lib/pipelines';
 import { MyPipelineAppStage } from './pipeline-stage';
-import { env } from 'process';
+import { BuildEnvironmentVariableType } from 'aws-cdk-lib/aws-codebuild'
 
 export class AwsCodePipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -11,6 +11,16 @@ export class AwsCodePipelineStack extends cdk.Stack {
 
     const pipeline = new CodePipeline(this, 'Pipeline', {
       pipelineName: 'TestPipeline',
+      codeBuildDefaults: { 
+        buildEnvironment: {
+          environmentVariables: { 
+            'NO_PREBUILT_LAMBDA': 
+            { type: BuildEnvironmentVariableType.PLAINTEXT, 
+              value: 1 
+            }
+          },
+        }
+      },
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.connection('Ume0344/aws-code-pipeline', 'main', {
           // we need to create aws code connection through cli.
