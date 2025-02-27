@@ -7,7 +7,6 @@ import { ECRDeployment, DockerImageName } from 'cdk-ecr-deployment'
 
 export interface ImageConfig {
   stage: string
-  repoName: string
   imageName: string
   imageTag: string
 }
@@ -21,17 +20,17 @@ export class EcrStack extends Stack {
   constructor(scope: Construct, id: string, props: ImageProps) {
     super(scope, id, props);
 
-    const ecrRepo = new ecr.Repository(this, `EcrRepo${props.config.repoName}${props.config.stage}`, {
-        repositoryName: `${props.config.repoName.toLowerCase()}-${props.config.stage}`
+    const ecrRepo = new ecr.Repository(this, `EcrRepo${props.config.imageName}${props.config.stage}`, {
+        repositoryName: `${props.config.imageName.toLowerCase()}-${props.config.stage}`
     })
 
-    const image = new DockerImageAsset(this, 'CDKDockerImage', {
-      directory: path.join(__dirname, 'docker'),
-    });
+    // const image = new DockerImageAsset(this, 'CDKDockerImage', {
+    //   directory: path.join(__dirname, 'docker'),
+    // });
 
     new ECRDeployment(this, 'DeplyDockerImageToEcr', {
-      src: new DockerImageName(image.imageUri),
-      dest: new DockerImageName(`${ecrRepo.repositoryUri}:latest`),
+      src: new DockerImageName(`${props.config.imageName}:${props.config.imageTag}`),
+      dest: new DockerImageName(`${ecrRepo.repositoryUri}:${props.config.imageTag}`),
     })
   }
 }

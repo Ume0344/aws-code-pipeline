@@ -17,7 +17,7 @@ export class AwsCodePipelineStack extends cdk.Stack {
             'NO_PREBUILT_LAMBDA': 
             { type: BuildEnvironmentVariableType.PLAINTEXT, 
               value: 1 
-            }
+            },
           },
         }
       },
@@ -28,6 +28,7 @@ export class AwsCodePipelineStack extends cdk.Stack {
         }),
         commands: [
           'node --version',
+          'env',
           'npm --version',
           'npm ci',
           'npm run build',
