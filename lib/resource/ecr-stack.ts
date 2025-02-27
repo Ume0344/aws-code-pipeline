@@ -1,4 +1,6 @@
 import * as ecr from 'aws-cdk-lib/aws-ecr';
+import * as path from 'path';
+import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { ECRDeployment, DockerImageName } from 'cdk-ecr-deployment'
@@ -23,8 +25,12 @@ export class EcrStack extends Stack {
         repositoryName: `${props.config.repoName.toLowerCase()}-${props.config.stage}`
     })
 
+    const image = new DockerImageAsset(this, 'CDKDockerImage', {
+      directory: path.join(__dirname, 'docker'),
+    });
+
     new ECRDeployment(this, 'DeplyDockerImageToEcr', {
-      src: new DockerImageName('nginx:latest'),
+      src: new DockerImageName(image.imageUri),
       dest: new DockerImageName(`${ecrRepo.repositoryUri}:latest`),
     })
   }
