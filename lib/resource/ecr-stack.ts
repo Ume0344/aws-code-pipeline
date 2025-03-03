@@ -1,6 +1,4 @@
 import * as ecr from 'aws-cdk-lib/aws-ecr';
-import * as path from 'path';
-import { DockerImageAsset } from 'aws-cdk-lib/aws-ecr-assets';
 import { Construct } from 'constructs';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import { ECRDeployment, DockerImageName } from 'cdk-ecr-deployment'
@@ -31,6 +29,28 @@ export class EcrStack extends Stack {
     new ECRDeployment(this, 'DeplyDockerImageToEcr', {
       src: new DockerImageName(`${props.config.imageName}:${props.config.imageTag}`),
       dest: new DockerImageName(`${ecrRepo.repositoryUri}:${props.config.imageTag}`),
+    })
+
+    new ecr.CfnReplicationConfiguration(this, 'EcrReplicationRule', {
+      replicationConfiguration: {
+        rules: [{
+          destinations: [{
+            region: 'eu-central-1',
+            registryId: this.account,
+          },
+          {
+            region: 'us-east-1',
+            registryId: this.account,
+          },
+        ],
+    
+          // the properties below are optional
+          repositoryFilters: [{
+            filter: ecrRepo.repositoryName,
+            filterType: 'PREFIX_MATCH'
+          }],
+        }],
+      },
     })
   }
 }
